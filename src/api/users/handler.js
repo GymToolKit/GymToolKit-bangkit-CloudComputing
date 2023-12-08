@@ -36,6 +36,20 @@ class UsersHandler {
       },
     };
   }
+  async putUsersByIdHandler(request) {
+    const { id } = request.params;
+    const { username, email } = request.payload;
+  
+    // Validate the update payload
+    this._validator.validateUserUpdatePayload({ username, email });
+  
+    // Call the service method to update user details
+    await this._service.editUserById(id, {username, email });
+  
+    return {
+      status: 'success',
+      message: 'Data Berhasil Di Update',
+    };
+  }
 }
-
 module.exports = UsersHandler;

@@ -37,7 +37,7 @@ const init = async () =>{
   ]);
 
   // strategy autentikasi jwt
-  server.auth.strategy('openmusicapp_jwt', 'jwt', {
+  server.auth.strategy('gym_jwt', 'jwt', {
     keys: process.env.ACCESS_TOKEN_KEY,
     verify: {
       aud: false,
