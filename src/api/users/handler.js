@@ -1,8 +1,8 @@
 const autoBind = require('auto-bind');
 
 class UsersHandler {
-  constructor(service, validator) {
-    this._service = service;
+  constructor( usersService, validator) {
+    this._usersService = usersService;
     this._validator = validator;
     
     autoBind(this);
@@ -12,7 +12,7 @@ class UsersHandler {
     this._validator.validateUserPayload(request.payload);
     const { username, email, password } = request.payload;
 
-    const userId = await this._service.addUser({ username, email, password });
+    const userId = await this._usersService.addUser({ username, email, password });
 
     const response = h.response({
       status: 'success',
@@ -27,7 +27,7 @@ class UsersHandler {
 
   async getUserByIdHandler(request) {
     const { id } = request.params;
-    const user = await this._service.getUserById(id);
+    const user = await this._usersService.getUserById(id);
 
     return {
       status: 'success',
@@ -44,11 +44,23 @@ class UsersHandler {
     this._validator.validateUserUpdatePayload({ username, email });
   
     // Call the service method to update user details
-    await this._service.editUserById(id, {username, email });
+    await this._usersService.editUserById(id, {username, email });
   
     return {
       status: 'success',
       message: 'Data Berhasil Di Update',
+    };
+  }
+  async deleteUsersHandler(request) {
+    this._validator.validateUserDeletePayload(request.payload);
+    const { id } = request.params;
+    const { username, password } = request.payload;
+    await this._usersService.verifyUserCredential(username, password);
+    await this._usersService.deleteUsersById(id);
+
+    return {
+      status: 'success',
+      message: 'Delete Account Successful',
     };
   }
 }

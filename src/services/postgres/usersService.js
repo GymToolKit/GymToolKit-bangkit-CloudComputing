@@ -1,17 +1,24 @@
 const { nanoid } = require('nanoid');
-const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
 const InvariantError = require('../../exception/InvariantError');
 const NotFoundError = require('../../exception/notFoundError');
 const AuthenticationError = require('../../exception/authenticationError');
+const database = require('../../config/database');
 
 class UsersService {
     constructor() {
-        this._pool = new Pool();
+        this._pool = database;
     }
     async addUser({ username, email, password }) {
-        await this.verifyNewUsername(username);
-        await this.verifyNewEmail(email);
+      const isUsernameValid = await this.verifyNewUsername(username);
+      const isEmailValid = await this.verifyNewEmail(email);
+
+      if (isUsernameValid) {
+        throw new InvariantError('Error, Username sudah digunakan.');
+      }
+      if (isEmailValid) {
+        throw new InvariantError('Error, Email sudah digunakan.');
+      }
     
         const id = `user-${nanoid(16)}`;
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -20,7 +27,7 @@ class UsersService {
           values: [id, username, email, hashedPassword],
         };
     
-    const result = await this._pool.query(query);
+        const result = await this._pool.query(query);
     
         if (!result.rows.length) {
           throw new InvariantError('User gagal ditambahkan');
@@ -41,11 +48,14 @@ class UsersService {
         }
     
         return result.rows[0];
-    }
-    
+    } 
     async editUserById(id, { username, email}) {
-      await this.verifyNewUsername(username);
-      await this.verifyNewEmail(email);
+      const isUsernameValid = await this.verifyNewUsername(username);
+      const isEmailValid = await this.verifyNewEmail(email);
+
+      if (isUsernameValid && isEmailValid) {
+        throw new InvariantError('Gagal melakukan update, Tidak Ada Perubahan Data');
+      }
     
       const query = {
         text: 'UPDATE users SET username=$1, email=$2 WHERE id=$3 RETURNING id',
@@ -58,7 +68,18 @@ class UsersService {
         throw new NotFoundError('Gagal Melakukan Update');
       }
     }
-    
+    async deleteUsersById(id) {
+      const query = {
+        text: 'DELETE FROM users WHERE id = $1 RETURNING id',
+        values: [id],
+      };
+  
+      const result = await this._pool.query(query);
+  
+      if (!result.rows.length) {
+        throw new NotFoundError('User not found');
+      }
+    }
     async verifyNewUsername(username) {
       const query = {
         text: 'SELECT username FROM users WHERE username = $1',
@@ -68,10 +89,9 @@ class UsersService {
       const result = await this._pool.query(query);
   
       if (result.rows.length > 0) {
-        throw new InvariantError('Gagal menambahkan user. Username sudah digunakan.');
+        return true;
       }
-      return true;
-  }
+    }
     async verifyNewEmail(email) {
     const query = {
       text: 'SELECT email FROM users WHERE email = $1',
@@ -81,38 +101,9 @@ class UsersService {
     const result = await this._pool.query(query);
 
     if (result.rows.length > 0) {
-      throw new InvariantError('Gagal menambahkan email. email sudah digunakan.');
+      return true;
     }
-    return true;
-  }
-    async verifyPassword(id, password) {
-    try {
-      const query = {
-        text: 'SELECT id, password FROM users WHERE id = $1',
-        values: [password],
-      };
-  
-      const result = await this._pool.query(query);
-  
-      if (!result.rows.length) {
-        console.error(`User with ID ${id} not found`);
-        throw new AuthenticationError('User not found');
-      }
-  
-      const { id: userId, password: hashedPassword } = result.rows[0];
-      const match = await bcrypt.compare(password, hashedPassword);
-  
-      if (!match) {
-        console.error(`Password mismatch for user with ID ${id}`);
-        throw new AuthenticationError('Incorrect password');
-      }
-  
-      return userId;
-    } catch (error) {
-      console.error('Error during password verification:', error.message);
-      throw new AuthenticationError('Authentication failed');
     }
-  }  
     async verifyUserCredential(username, password) {
         const query = {
           text: 'SELECT id, password FROM users WHERE username = $1',

@@ -58,7 +58,7 @@ await server.register([
     {
       plugin: users,
       options: {
-        service: usersService,
+        usersService: usersService,
         validator: UsersValidator,
       },
     },
