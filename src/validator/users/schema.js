@@ -13,5 +13,10 @@ const UserDeletePayloadSchema = Joi.object({
   username: Joi.string().max(50).required(),
   password: Joi.string().required(),
 });
+const PasswordUpdatePayloadSchema = Joi.object({
+  password: Joi.string().required(),
+  newPassword: Joi.string().required(),
+});
 
-module.exports = { UserPayloadSchema, UserUpdatePayloadSchema, UserDeletePayloadSchema};
+
+module.exports = { UserPayloadSchema, UserUpdatePayloadSchema, UserDeletePayloadSchema, PasswordUpdatePayloadSchema};

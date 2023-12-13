@@ -24,7 +24,6 @@ class UsersHandler {
     response.code(201);
     return response;
   }
-
   async getUserByIdHandler(request) {
     const { id } = request.params;
     const user = await this._usersService.getUserById(id);
@@ -61,6 +60,22 @@ class UsersHandler {
     return {
       status: 'success',
       message: 'Delete Account Successful',
+    };
+  }
+  async patchPasswordHandler(request) {
+    const { id } = request.params;
+    const { password, newPassword} = request.payload;
+  
+    // Validate the update payload
+    this._validator.validatePasswordUpdatePayload({ password, newPassword });
+
+    // Verify the old password and update to the new password
+    await this._usersService.verifyOldPassword(id, password);
+    await this._usersService.editPassword(id, {newPassword});
+
+    return {
+      status: 'success',
+      message: 'Password Berhasil Di Update',
     };
   }
 }

@@ -68,6 +68,14 @@ class UsersService {
         throw new NotFoundError('Gagal Melakukan Update');
       }
     }
+    async editPassword(userId, {newPassword}) {
+      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+      const query = {
+        text: 'UPDATE users SET password = $1 WHERE id = $2',
+        values: [hashedNewPassword, userId],
+      };
+        await this._pool.query(query);
+    }
     async deleteUsersById(id) {
       const query = {
         text: 'DELETE FROM users WHERE id = $1 RETURNING id',
@@ -103,6 +111,25 @@ class UsersService {
     if (result.rows.length > 0) {
       return true;
     }
+    }
+    async verifyOldPassword(userId, oldPassword) {
+      const oldPasswordQuery = {
+        text: 'SELECT password FROM users WHERE id = $1',
+        values: [userId],
+      };
+  
+      const oldPasswordResult = await this._pool.query(oldPasswordQuery);
+  
+      if (!oldPasswordResult.rows.length) {
+        throw new AuthenticationError('User not found');
+      }
+  
+      const { password: hashedOldPassword } = oldPasswordResult.rows[0];
+      const oldPasswordMatch = await bcrypt.compare(oldPassword, hashedOldPassword);
+  
+      if (!oldPasswordMatch) {
+        throw new AuthenticationError('Invalid old password');
+      }
     }
     async verifyUserCredential(username, password) {
         const query = {
