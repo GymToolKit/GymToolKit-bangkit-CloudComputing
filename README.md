@@ -35,7 +35,7 @@ This table stores information about the feedback from users of the application.
 ## Documentation API GymToolKit
 ### Authentication
 #### Register
-* Endpoint: /users
+* Endpoint: /users/register
 * Method: POST
 * Request Body:
   * username (string): User's name
@@ -71,7 +71,7 @@ This table stores information about the feedback from users of the application.
       ```
 
 #### Login
-* Endpoint: /authentications
+* Endpoint: /authentications/login
 * Method: POST
 * Request Body:
   * username (string): User's name
@@ -105,7 +105,7 @@ This table stores information about the feedback from users of the application.
       ```
       
 #### View Account
-* Endpoint: /users/<users_id>
+* Endpoint: /users/{id}/view
 * Method: GET
 * Response:
   * If successful:
@@ -130,7 +130,7 @@ This table stores information about the feedback from users of the application.
       ```
 
 #### Update Account
-* Endpoint: /users/<users_id>
+* Endpoint:'/users/{id}/edit-users
 * Method: PUT
 * Request Body:
   * username (string): User's name
@@ -162,10 +162,34 @@ This table stores information about the feedback from users of the application.
         "error": true,
         "message": "Username already taken."
       }
+       ```
+    
+#### Change Password Account
+* Endpoint:/users/{id}/change-password
+* Method: PUT
+* Request Body:
+  * Password (string): User's Password
+* Response:
+  * If successful:
+    * Status Code: 200
+    * JSON Response:
+      ```json
+      {
+        "error": false,
+        "message": "Password Change Success"
+      }
       ```
-
+  * If Old Password False :
+    * Status Code: 400
+    * JSON Response:
+      ```json
+      {
+        "error": true,
+        "message": "Invalid password"
+      }
+      ```
 #### Delete Account
-* Endpoint: /users/<users_id>
+* Endpoint: /users/{id}/delete-account
 * Method: DELETE
 * Request Body:
   * password (string): User's password
@@ -185,12 +209,12 @@ This table stores information about the feedback from users of the application.
       ```json
       {
         "error": true,
-        "message": "Password is incorrect."
+        "message": "Credential is incorrect."
       }
       ```
       
 #### Logout
-* Endpoint: /authentications
+* Endpoint: /authentications/logout
 * Method: POST
 * Request Body:
   * refresh_token (string): User's get new token
