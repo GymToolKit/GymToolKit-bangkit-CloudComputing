@@ -1,19 +1,15 @@
-const mapDBToModel = ({
+const mapDBToModelTools = ({
   id,
-  title,
-  body,
-  tags,
-  created_at,
-  updated_at,
-  username,
+  tools_name,
+  video_url,
+  headline,
+  tools_step,
 }) => ({
   id,
-  title,
-  body,
-  tags,
-  createdAt: created_at,
-  updatedAt: updated_at,
-  username,
+  toolsName: tools_name,
+  videoUrl: video_url,
+  headline,
+  toolsStep: tools_step,
 });
 
-module.exports = { mapDBToModel };
+module.exports = { mapDBToModelTools };
