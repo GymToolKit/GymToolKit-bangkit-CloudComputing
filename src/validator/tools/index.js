@@ -9,6 +9,7 @@ const ToolsValidator = {
       throw new InvariantError(validationResult.error.message);
     }
   },
+  
   validateToolsQueryParam: (query) => {
     const validationResult = ToolsQueryParamSchema.validate(query);
 

@@ -21,10 +21,17 @@ const tools = require('./api/tools');
 const ToolsService = require('./services/postgres/toolsService');
 const ToolsValidator = require('./validator/tools');
 
+// feedback services
+const feedback = require('./api/feedback');
+const FeedbackService = require('./services/postgres/feedbackService');
+const FeedbackValidator = require('./validator/feedback');
+
+
 const init = async () =>{
     const usersService = new UsersService();
     const authenticationsService = new AuthenticationsService();
     const toolsService = new ToolsService();
+    const feedbackService = new FeedbackService();
     
     const server = Hapi.server({
         port: process.env.PORT,
@@ -82,6 +89,13 @@ await server.register([
       options: {
         toolsService: toolsService,
         validator: ToolsValidator,
+      },
+    },
+    {
+      plugin: feedback,
+      options: {
+        feedbackService: feedbackService,
+        validator: FeedbackValidator,
       },
     },
   ]);

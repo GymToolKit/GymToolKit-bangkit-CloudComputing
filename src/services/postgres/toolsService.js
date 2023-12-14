@@ -30,7 +30,7 @@ class ToolsService {
       const result = await this._pool.query(query);
   
       if (!result.rows) {
-        throw new Error('No tools found');
+        throw new NotFoundError('Tools tidak ditemukan.');
       }
   
       return result.rows.map(mapDBToModelTools);
