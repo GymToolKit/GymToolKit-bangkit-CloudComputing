@@ -11,7 +11,7 @@ const routes = (handler) => [
   },
   {
     method: 'GET',
-    path: '/tools/{id}/detail-tools',
+    path: '/tools/detail-tools/{id}',
     handler: handler.getToolsByIdHandler,
   },
   {
@@ -21,12 +21,12 @@ const routes = (handler) => [
   },
   {
     method: 'PUT',
-    path: '/tools/{id}/update-tools',
+    path: '/tools/update-tools/{id}',
     handler: handler.putToolsByIdHandler,
   },
   {
     method: 'DELETE',
-    path: '/tools/{id}/delete-tools',
+    path: '/tools/delete-tools/{id}',
     handler: handler.deleteToolsByIdHandler,
   },
   
