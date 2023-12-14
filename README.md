@@ -6,7 +6,7 @@ Welcome to the documentation of the GymToolKit: Your Personal Gym Trainer backen
 This table stores information about the users of the application.
 | Column   | Type | Constraint     |
 |--------|------|----------|
-| user_id   | VARCHAR(255)   | PRIMARY KEY, AUTO INCREMENT  |
+| id   | VARCHAR(255)   | PRIMARY KEY, AUTO INCREMENT  |
 | username   | VARCHAR(255)   | NOT NULL  |
 | email    | VARCHAR(255)   | NOT NULL |
 | password   | VARCHAR(255)   | NOT NULL  |
@@ -15,27 +15,27 @@ This table stores information about the users of the application.
 This table stores information about the tools available in the application.
 | Column   | Type | Constraint     |
 |--------|------|----------|
-| tools_id   | VARCHAR(255)   | PRIMARY KEY, AUTO INCREMENT  |
-| tools_name   | VARCHAR(255)   | NOT NULL  |
-| video_url    | VARCHAR(255)   | NOT NULL |
-| photo_url   | BYTEA   | NOT NULL  |
-| tools_step    | TEXT[ARRAY]   | NOT NULL |
-| tools_description    | TEXT   | NOT NULL |
-| tags    | TEXT[ARRAY]   | NOT NULL |
+| id   | VARCHAR(255)   | PRIMARY KEY, AUTO INCREMENT  |
+| toolsName   | VARCHAR(255)   | NOT NULL  |
+| videoUrl    | TEXT   | NOT NULL |
+| headline   |  TEXT[ARRAY]   | NOT NULL  |
+| toolsStep    | TEXT[ARRAY]   | NOT NULL |
 
 ### Table: Feedback
 This table stores information about the feedback from users of the application.
 | Column   | Type | Constraint     |
 |--------|------|----------|
-| feedback_id   | VARCHAR(255)   | PRIMARY KEY, AUTO INCREMENT  |
-| user_rating    | INT   | NOT NULL |
-| user_feedback   | TEXT   |   |
-| FOREIGN KEY   | (user_id)   | REFERENCES users(user_id)  |
+| id   | VARCHAR(255)   | PRIMARY KEY, AUTO INCREMENT  |
+| user_id    | VARCHAR(255)   | NOT NULL |
+| rating    | INT   | NOT NULL |
+| comment   | TEXT   |   |
+| FOREIGN KEY   | (user_id)   | REFERENCES users(id)  |
 
 ## Documentation API GymToolKit
 ### Authentication
+### Users Service
 #### Register
-* Endpoint: /users/register
+* URL: /users/register
 * Method: POST
 * Request Body:
   * username (string): User's name
@@ -47,7 +47,7 @@ This table stores information about the feedback from users of the application.
     * JSON Response:
       ```json
       {
-        "error": false,
+        "status": "success",
         "message": "Account successfully registered. Please log in."
       }
       ```
@@ -56,7 +56,7 @@ This table stores information about the feedback from users of the application.
     * JSON Response:
       ```json
       {
-        "error": true,
+        "status": "failed",
         "message": "Email already taken."
       }
       ```
@@ -65,13 +65,13 @@ This table stores information about the feedback from users of the application.
     * JSON Response:
       ```json
       {
-        "error": true,
+        "status": "failed",
         "message": "Username already taken."
       }
       ```
 
 #### Login
-* Endpoint: /authentications/login
+* URL: /authentications/login
 * Method: POST
 * Request Body:
   * username (string): User's name
@@ -82,7 +82,7 @@ This table stores information about the feedback from users of the application.
     * JSON Response:
       ```json
       {
-        "error": false,
+        "status": "success",
         "loginResult":
         {
           "email": "test@example.com",
@@ -99,13 +99,13 @@ This table stores information about the feedback from users of the application.
     * JSON Response:
       ```json
       {
-        "error": true,
+        "status": "failed",
         "message": "Email or Password is incorrect."
       }
       ```
       
 #### View Account
-* Endpoint: /users/{id}/view
+* URL: /users/view/{id}
 * Method: GET
 * Response:
   * If successful:
@@ -113,10 +113,9 @@ This table stores information about the feedback from users of the application.
     * JSON Response:
       ```json
       {
-        "users_id": "<users_id>",
+        "id": "<id>",
         "username": "Test",
         "email": "test@example.com",
-        "avatar_url": "<avatar_url>"
       }
       ```
   * If users not authenticated:
@@ -124,13 +123,13 @@ This table stores information about the feedback from users of the application.
     * JSON Response:
       ```json
       {
-        "error": true,
+        "status": "failed",
         "message": "User not authenticated."
       }
       ```
 
 #### Update Account
-* Endpoint:'/users/{id}/edit-users
+* URL:'/users/edit-users/{id}
 * Method: PUT
 * Request Body:
   * username (string): User's name
@@ -141,8 +140,8 @@ This table stores information about the feedback from users of the application.
     * JSON Response:
       ```json
       {
-        "error": false,
-        "message": "Update Success."
+        "status": "success",
+        "message": "Update account success."
       }
       ```
   * If email is already taken:
@@ -150,7 +149,7 @@ This table stores information about the feedback from users of the application.
     * JSON Response:
       ```json
       {
-        "error": true,
+        "status": "failed",
         "message": "Email already taken."
       }
       ```
@@ -159,23 +158,24 @@ This table stores information about the feedback from users of the application.
     * JSON Response:
       ```json
       {
-        "error": true,
+        "status": "failed",
         "message": "Username already taken."
       }
        ```
     
 #### Change Password Account
-* Endpoint:/users/{id}/change-password
+* URL:/users/change-password/{id}
 * Method: PUT
 * Request Body:
   * Password (string): User's Password
+  * newPassword (string): User's New Password
 * Response:
   * If successful:
     * Status Code: 200
     * JSON Response:
       ```json
       {
-        "error": false,
+        "status": "success",
         "message": "Password Change Success"
       }
       ```
@@ -184,14 +184,15 @@ This table stores information about the feedback from users of the application.
     * JSON Response:
       ```json
       {
-        "error": true,
+        "status": "failed",
         "message": "Invalid password"
       }
       ```
 #### Delete Account
-* Endpoint: /users/{id}/delete-account
+* URL: /users/delete-account/{id}
 * Method: DELETE
 * Request Body:
+  * username (string): User's username
   * password (string): User's password
 * Response:
   * If successful:
@@ -199,7 +200,7 @@ This table stores information about the feedback from users of the application.
     * JSON Response:
       ```json
       {
-        "error": false,
+        "status": "success",
         "message": "Account deleted successfully."
       }
       ```
@@ -208,13 +209,13 @@ This table stores information about the feedback from users of the application.
     * JSON Response:
       ```json
       {
-        "error": true,
+        "status": "failed",
         "message": "Credential is incorrect."
       }
       ```
       
 #### Logout
-* Endpoint: /authentications/logout
+* URL: /authentications/logout
 * Method: POST
 * Request Body:
   * refresh_token (string): User's get new token
@@ -224,60 +225,132 @@ This table stores information about the feedback from users of the application.
     * JSON Response:
       ```json
       {
-        "error": false,
+        "status": "success",
         "message": "Logout successfully."
       }
       ```
 
 ### Tools Service
-#### Upload Tools (Scanning Image)
-* Endpoint: /tools/scan_tools
+#### Register Tools
+* URL: /tools/register-tools
 * Method: POST
 * Request Body:
-  * image_url (file): User's image
+  * toolsName (string): Name gym tools
+  * videoUrl (string): URL video tutorial
+  * headline (array): Headline for steps tools tutorial
+  * toolsStep (array): Step by step tools tutorial
 * Response:
   * If successful:
     * Status Code: 200
     * JSON Response:
       ```json
       {
-        "tools_name": "<tools_name>",
-        "tags": ["Legs", "Cardiovascular System"],
-        "video_url": "https://example.com/tutorials/treadmil",
-        "tools_step": "<tools_step>"
+        "status": "success",
+        "message": "Tools successfully registered."
       }
       ```
 
-#### Show List Tools
-* Endpoint: /tools
-* Method: POST
-* Request Body:
-  * image_url (file): Server image
+#### List Tools
+* URL: /tools/list-tools
+* Method: GET
 * Response:
   * If successful:
     * Status Code: 200
     * JSON Response:
       ```json
       {
-        "photo_url": "<photo_url>",
-        "tools_name": "<tools_name>",
-        "tools_description": "<tools_description>"
+        "toolsName": "<toolsName>",
+        "videoUrl": "https://example.com/tutorials/treadmil",
+        "headline": "<headline>",
+        "toolsStep": "<toolsStep>"
+      }
+      ```
+      
+#### Detail Tools
+* URL: /tools/detail-tools/{id}
+* Method: GET
+* Request Body:
+  * id (string): ID tools
+* Response:
+  * If successful:
+    * Status Code: 200
+    * JSON Response:
+      ```json
+      {
+        "toolsName": "<toolsName>",
+        "videoUrl": "https://example.com/tutorials/treadmil",
+        "headline": "<headline>",
+        "toolsStep": "<toolsStep>"
+      }
+      ```
+      
+#### Search Tools
+* URL: /tools/list-tools
+* Method: GET
+* Request Body:
+  * toolsName (string): Name gym tools
+* Response:
+  * If successful:
+    * Status Code: 200
+    * JSON Response:
+      ```json
+      {
+        "toolsName": "<toolsName>",
+        "videoUrl": "https://example.com/tutorials/treadmil",
+        "headline": "<headline>",
+        "toolsStep": "<toolsStep>"
       }
       ```
 
+#### Update Tools
+* URL: /tools/update-tools/{id}
+* Method: GET
+* Request Body:
+  * toolsName (string): Name gym tools
+  * videoUrl (string): URL video tutorial
+  * headline (array): Headline for steps tools tutorial
+  * toolsStep (array): Step by step tools tutorial
+* Response:
+  * If successful:
+    * Status Code: 200
+    * JSON Response:
+      ```json
+      {
+        "status": "success",
+        "message": "Update tools success."
+      }
+      ```
+      
+#### Delete Tools
+* URL: /tools/delete-tools/{id}
+* Method: GET
+* Response:
+  * If successful:
+    * Status Code: 200
+    * JSON Response:
+      ```json
+      {
+        "status": "success",
+        "message": "Tools deleted successfully."
+      }
+      ```
+      
 ### Feedback Service
-* Endpoint: /feedback
-* Method: DELETE
+#### Send Feedback
+* URL: /feedback/{id}
+* Method: POST
 * Request Body:
   * user_rating (int): User's rating
   * user_feedback (string): User's comment feedback
+* Request Headers:
+  * Bearer <access_token>
 * Response:
   * If successful:
     * Status Code: 200
     * JSON Response:
       ```json
       {
-        "error": false,
+        "status": "success",
         "message": "Thankyou for giving feedback."
       }
       ```
@@ -286,7 +359,24 @@ This table stores information about the feedback from users of the application.
     * JSON Response:
       ```json
       {
-        "error": true,
+        "status": "failed",
         "message": "Please, provide a rating between 1 and 5."
+      }
+      ```
+
+#### List Feedback
+* URL: /feedback/list-feedback
+* Method: GET
+* Request Body:
+  * id (string): ID feedback
+* Response:
+  * If successful:
+    * Status Code: 200
+    * JSON Response:
+      ```json
+      {
+        "id": "<users_id>",
+        "rating": "<rating>",
+        "comment": "<comment>"
       }
       ```
