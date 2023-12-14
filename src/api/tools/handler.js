@@ -63,8 +63,8 @@ class ToolsHandler {
   }
   async searchToolsHandler(request, h) {
     this._validator.validateToolsQueryParam(request.query);
-    const { toolName } = request.query;
-    const tools = await this._toolsService.searchToolsByName(toolName);
+    const { toolsName } = request.query;
+    const tools = await this._toolsService.searchToolsByName(toolsName);
       return h.response({
         status: 'success',
         data: {

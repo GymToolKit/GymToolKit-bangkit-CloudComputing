@@ -43,7 +43,7 @@ This table stores information about the feedback from users of the application.
   * password (string): User's password
 * Response:
   * If successful:
-    * Status Code: 200
+    * Status Code: 201
     * JSON Response:
       ```json
       {
@@ -56,7 +56,7 @@ This table stores information about the feedback from users of the application.
     * JSON Response:
       ```json
       {
-        "status": "failed",
+        "status": "fail",
         "message": "Email already taken."
       }
       ```
@@ -65,7 +65,7 @@ This table stores information about the feedback from users of the application.
     * JSON Response:
       ```json
       {
-        "status": "failed",
+        "status": "fail",
         "message": "Username already taken."
       }
       ```
@@ -78,20 +78,17 @@ This table stores information about the feedback from users of the application.
   * password (string): User's password
 * Response:
   * If successful:
-    * Status Code: 200
+    * Status Code: 201
     * JSON Response:
       ```json
       {
         "status": "success",
+        "message": "Login Success.",
         "loginResult":
-        {
-          "email": "test@example.com",
-          "username": "Test",
-          "user_id": "<string_id>",
-          "access_token": "<access_token>",
-          "refresh_token": "<refresh_token>"
-        },
-        "message": "Login Success."
+          {
+            "access_token": "<access_token>",
+            "refresh_token": "<refresh_token>"
+          },
        }
       ```
   * If username or email or password is incorrect:
@@ -99,8 +96,8 @@ This table stores information about the feedback from users of the application.
     * JSON Response:
       ```json
       {
-        "status": "failed",
-        "message": "Email or Password is incorrect."
+        "status": "fail",
+        "message": "Username or Password is incorrect."
       }
       ```
       
@@ -112,18 +109,19 @@ This table stores information about the feedback from users of the application.
     * Status Code: 200
     * JSON Response:
       ```json
-      {
+      { 
+        "id": "<userID>",
         "username": "Test",
         "email": "test@example.com",
       }
       ```
-  * If users not authenticated:
-    * Status Code: 401
+  * If users id not found :
+    * Status Code: 404
     * JSON Response:
       ```json
       {
-        "status": "failed",
-        "message": "User not authenticated."
+        "status": "fail",
+        "message": "User not found."
       }
       ```
 
@@ -148,7 +146,7 @@ This table stores information about the feedback from users of the application.
     * JSON Response:
       ```json
       {
-        "status": "failed",
+        "status": "fail",
         "message": "Email already taken."
       }
       ```
@@ -157,7 +155,7 @@ This table stores information about the feedback from users of the application.
     * JSON Response:
       ```json
       {
-        "status": "failed",
+        "status": "fail",
         "message": "Username already taken."
       }
        ```
@@ -179,11 +177,11 @@ This table stores information about the feedback from users of the application.
       }
       ```
   * If Old Password False :
-    * Status Code: 400
+    * Status Code: 401
     * JSON Response:
       ```json
       {
-        "status": "failed",
+        "status": "fail",
         "message": "Invalid password"
       }
       ```
@@ -204,20 +202,48 @@ This table stores information about the feedback from users of the application.
       }
       ```
   * If password are incorrect:
-    * Status Code: 400
+    * Status Code: 401
     * JSON Response:
       ```json
       {
-        "status": "failed",
+        "status": "fail",
         "message": "Credential is incorrect."
       }
       ```
       
+#### Refreseh Token
+* URL: /authentications/refresh-token
+* Method: PUT
+* Request Body:
+    * refresh_token (string): User's refresh token
+* Response:
+  * If successful:
+    * Status Code: 200
+    * JSON Response:
+      ```json
+      {
+        "status": "success",
+        "message": "Account deleted successfully.",
+         "loginResult":
+          {
+            "access_token": "<access_token>",
+          },
+      }
+      ```
+  * If refresh are incorrect:
+    * Status Code: 401
+    * JSON Response:
+      ```json
+      {
+        "status": "fail",
+        "message": "Refresh Token is Invalid."
+      }
+      ```
 #### Logout
 * URL: /authentications/logout
 * Method: POST
 * Request Body:
-  * refresh_token (string): User's get new token
+  * refresh_token (string): User's refresh token
 * Response:
   * If successful:
     * Status Code: 200
@@ -240,7 +266,7 @@ This table stores information about the feedback from users of the application.
   * toolsStep (array): Step by step tools tutorial
 * Response:
   * If successful:
-    * Status Code: 200
+    * Status Code: 201
     * JSON Response:
       ```json
       {
@@ -286,7 +312,7 @@ This table stores information about the feedback from users of the application.
 #### Search Tools
 * URL: /tools/list-tools
 * Method: GET
-* Request Body:
+* Request Query:
   * toolsName (string): Name gym tools
 * Response:
   * If successful:
@@ -346,7 +372,7 @@ This table stores information about the feedback from users of the application.
   * Bearer <access_token>
 * Response:
   * If successful:
-    * Status Code: 200
+    * Status Code: 201
     * JSON Response:
       ```json
       {

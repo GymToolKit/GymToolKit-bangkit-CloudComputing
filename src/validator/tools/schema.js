@@ -7,7 +7,7 @@ const ToolsPayloadSchema = Joi.object({
   toolsStep: Joi.array().items(Joi.string()).required(),
 });
 const ToolsQueryParamSchema = Joi.object({
-  toolName: Joi.string().required(),
+  toolsName: Joi.string().required(),
 });
 
 module.exports = { ToolsPayloadSchema, ToolsQueryParamSchema };

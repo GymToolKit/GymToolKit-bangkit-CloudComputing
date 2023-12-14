@@ -33,7 +33,6 @@ class FeedbackService {
   
     return result.rows;
   }
-  
   async checkFeedbackStatus(userId) {
     const query = {
       text: 'SELECT id FROM feedback WHERE user_id = $1',

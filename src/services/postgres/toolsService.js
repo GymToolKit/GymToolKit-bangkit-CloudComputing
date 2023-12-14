@@ -76,10 +76,10 @@ class ToolsService {
       throw new NotFoundError('Tools gagal dihapus');
     }
   }
-  async searchToolsByName(toolName) {
+  async searchToolsByName(toolsName) {
     const query = {
       text: 'SELECT * FROM tools WHERE tools_name ILIKE $1',
-      values: [`%${toolName}%`],
+      values: [`%${toolsName}%`],
     };
   
     const result = await this._pool.query(query);
