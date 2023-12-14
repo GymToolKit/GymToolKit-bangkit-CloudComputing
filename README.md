@@ -113,7 +113,6 @@ This table stores information about the feedback from users of the application.
     * JSON Response:
       ```json
       {
-        "id": "<id>",
         "username": "Test",
         "email": "test@example.com",
       }
@@ -129,7 +128,7 @@ This table stores information about the feedback from users of the application.
       ```
 
 #### Update Account
-* URL:'/users/edit-users/{id}
+* URL: /users/edit-users/{id}
 * Method: PUT
 * Request Body:
   * username (string): User's name
@@ -164,11 +163,11 @@ This table stores information about the feedback from users of the application.
        ```
     
 #### Change Password Account
-* URL:/users/change-password/{id}
+* URL: /users/change-password/{id}
 * Method: PUT
 * Request Body:
-  * Password (string): User's Password
-  * newPassword (string): User's New Password
+  * password (string): User's password
+  * newPassword (string): User's new password
 * Response:
   * If successful:
     * Status Code: 200
@@ -176,7 +175,7 @@ This table stores information about the feedback from users of the application.
       ```json
       {
         "status": "success",
-        "message": "Password Change Success"
+        "message": "Password change success"
       }
       ```
   * If Old Password False :
@@ -304,7 +303,7 @@ This table stores information about the feedback from users of the application.
 
 #### Update Tools
 * URL: /tools/update-tools/{id}
-* Method: GET
+* Method: PUT
 * Request Body:
   * toolsName (string): Name gym tools
   * videoUrl (string): URL video tutorial
@@ -323,7 +322,7 @@ This table stores information about the feedback from users of the application.
       
 #### Delete Tools
 * URL: /tools/delete-tools/{id}
-* Method: GET
+* Method: DELETE
 * Response:
   * If successful:
     * Status Code: 200
@@ -340,8 +339,9 @@ This table stores information about the feedback from users of the application.
 * URL: /feedback/{id}
 * Method: POST
 * Request Body:
-  * user_rating (int): User's rating
-  * user_feedback (string): User's comment feedback
+  * userId (string) : User's ID
+  * rating (int): User's rating
+  * comment (string): User's comment feedback
 * Request Headers:
   * Bearer <access_token>
 * Response:
@@ -367,15 +367,13 @@ This table stores information about the feedback from users of the application.
 #### List Feedback
 * URL: /feedback/list-feedback
 * Method: GET
-* Request Body:
-  * id (string): ID feedback
 * Response:
   * If successful:
     * Status Code: 200
     * JSON Response:
       ```json
       {
-        "id": "<users_id>",
+        "userId": "<users_id>",
         "rating": "<rating>",
         "comment": "<comment>"
       }
