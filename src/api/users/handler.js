@@ -43,7 +43,7 @@ class UsersHandler {
     this._validator.validateUserUpdatePayload({ username, email });
   
     // Call the service method to update user details
-    await this._usersService.editUserById(id, {username, email });
+    await this._usersService.editUserById(id, { username, email });
   
     return {
       status: 'success',

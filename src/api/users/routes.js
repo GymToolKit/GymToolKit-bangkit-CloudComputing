@@ -6,22 +6,22 @@ const routes = (handler) => [
   },
   {
     method: 'GET',
-    path: '/users/{id}/view',
+    path: '/users/view/{id}',
     handler: handler.getUserByIdHandler,
   },
   {
     method: 'PUT',
-    path: '/users/{id}/edit-users',
+    path: '/users/edit-users/{id}',
     handler: handler.putUsersByIdHandler,
   },
   {
     method: 'PUT',
-    path: '/users/{id}/change-password',
+    path: '/users/change-password/{id}',
     handler: handler.patchPasswordHandler,
   },
   {
     method: 'DELETE',
-    path: '/users/{id}/delete-account',
+    path: '/users/delete-account/{id}',
     handler: handler.deleteUsersHandler,
   },
 ];
