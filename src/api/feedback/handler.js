@@ -19,7 +19,7 @@ class FeedbackHandler {
     
     const response = h.response({
       status: 'success',
-      message: 'Terima Kasih Atas Feedback Anda',
+      message: 'Thankyou for giving feedback.',
     });
     response.code(201);
     return response;

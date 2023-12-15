@@ -6,6 +6,11 @@ const routes = (handler) => [
   },
   {
     method: 'GET',
+    path: '/users/view',
+    handler: handler.getUsersHandler,
+  },
+  {
+    method: 'GET',
     path: '/users/view/{id}',
     handler: handler.getUserByIdHandler,
   },

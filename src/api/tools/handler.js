@@ -16,7 +16,7 @@ class ToolsHandler {
 
     const response = h.response({
       status: 'success',
-      message: 'Tools berhasil ditambahkan',
+      message: 'Tools successfully registered.',
       data: {
         userId,
       },
@@ -50,7 +50,7 @@ class ToolsHandler {
 
     return {
       status: 'success',
-      message: 'Tools berhasil diperbarui',
+      message: 'Update tools success.',
     };
   }
   async deleteToolsByIdHandler(request) {
@@ -58,7 +58,7 @@ class ToolsHandler {
     await this._toolsService.deleteToolsById(id);
     return {
       status: 'success',
-      message: 'Tools berhasil dihapus',
+      message: 'Tools deleted successfully',
     };
   }
   async searchToolsHandler(request, h) {

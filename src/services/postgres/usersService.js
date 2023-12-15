@@ -14,10 +14,10 @@ class UsersService {
       const isEmailValid = await this.verifyNewEmail(email);
 
       if (isUsernameValid) {
-        throw new InvariantError('Error, Username sudah digunakan.');
+        throw new InvariantError('Email already taken.');
       }
       if (isEmailValid) {
-        throw new InvariantError('Error, Email sudah digunakan.');
+        throw new InvariantError('Username already taken.');
       }
     
         const id = `user-${nanoid(16)}`;
@@ -35,6 +35,21 @@ class UsersService {
 
         return result.rows[0].id;
     }
+    async getUsers() {
+      try {
+        const query = 'SELECT id, username, email FROM users';
+        const result = await this._pool.query(query);
+    
+        if (result.rows.length === 0) {
+          throw new NotFoundError('Users Not Found.');
+        }
+    
+        return result.rows;
+      } catch (error) {
+        console.error('Error fetching users:', error.message);
+        throw error;
+      }
+    }   
     async getUserById(userId) {
         const query = {
           text: 'SELECT id, username, email FROM users WHERE id = $1',
@@ -44,7 +59,7 @@ class UsersService {
         const result = await this._pool.query(query);
     
         if (!result.rows.length) {
-          throw new NotFoundError('User tidak ditemukan');
+          throw new NotFoundError('User not found.');
         }
     
         return result.rows[0];
@@ -54,7 +69,7 @@ class UsersService {
       const isEmailValid = await this.verifyNewEmail(email);
 
       if (isUsernameValid && isEmailValid) {
-        throw new InvariantError('Gagal melakukan update, Tidak Ada Perubahan Data');
+        throw new InvariantError('Update Failed');
       }
     
       const query = {
@@ -65,7 +80,7 @@ class UsersService {
       const result = await this._pool.query(query);
     
       if (!result.rows.length) {
-        throw new NotFoundError('Gagal Melakukan Update');
+        throw new NotFoundError('Update Fail');
       }
     }
     async editPassword(userId, {newPassword}) {
@@ -128,7 +143,7 @@ class UsersService {
       const oldPasswordMatch = await bcrypt.compare(oldPassword, hashedOldPassword);
   
       if (!oldPasswordMatch) {
-        throw new AuthenticationError('Invalid old password');
+        throw new AuthenticationError('Invalid password');
       }
     }
     async verifyUserCredential(username, password) {
@@ -139,7 +154,7 @@ class UsersService {
         const result = await this._pool.query(query);
     
         if (!result.rows.length) {
-          throw new AuthenticationError('Kredensial yang Anda berikan salah');
+          throw new AuthenticationError('Username or Password is incorrect.');
         }
     
         const { id, password: hashedPassword } = result.rows[0];
@@ -147,7 +162,7 @@ class UsersService {
         const match = await bcrypt.compare(password, hashedPassword);
     
         if (!match) {
-          throw new AuthenticationError('Kredensial yang Anda berikan salah');
+          throw new AuthenticationError('Username or Password is incorrect.');
         }
         return id;
     }

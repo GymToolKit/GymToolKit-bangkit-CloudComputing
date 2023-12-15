@@ -30,7 +30,7 @@ class ToolsService {
       const result = await this._pool.query(query);
   
       if (!result.rows) {
-        throw new NotFoundError('Tools tidak ditemukan.');
+        throw new NotFoundError('Tools Not Found.');
       }
   
       return result.rows.map(mapDBToModelTools);
@@ -48,7 +48,7 @@ class ToolsService {
     const result = await this._pool.query(query);
   
     if (!result.rows.length) {
-      throw new NotFoundError('Tools tidak ditemukan.');
+      throw new NotFoundError('Tools Not Found.');
     }
   
     return mapDBToModelTools(result.rows[0]); 

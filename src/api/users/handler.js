@@ -12,17 +12,23 @@ class UsersHandler {
     this._validator.validateUserPayload(request.payload);
     const { username, email, password } = request.payload;
 
-    const userId = await this._usersService.addUser({ username, email, password });
+     await this._usersService.addUser({ username, email, password });
 
     const response = h.response({
       status: 'success',
-      message: 'User berhasil ditambahkan',
-      data: {
-        userId,
-      },
+      message: 'Account successfully registered. Please log in.',
     });
     response.code(201);
     return response;
+  }
+  async getUsersHandler(request, h) {
+    const users = await this._usersService.getUsers();
+      return h.response({
+        status: 'success',
+        data: {
+          users,
+        },
+    }); 
   }
   async getUserByIdHandler(request) {
     const { id } = request.params;
@@ -47,7 +53,7 @@ class UsersHandler {
   
     return {
       status: 'success',
-      message: 'Data Berhasil Di Update',
+      message: 'Update account success.',
     };
   }
   async deleteUsersHandler(request) {
@@ -75,7 +81,7 @@ class UsersHandler {
 
     return {
       status: 'success',
-      message: 'Password Berhasil Di Update',
+      message: 'Password change success',
     };
   }
 }

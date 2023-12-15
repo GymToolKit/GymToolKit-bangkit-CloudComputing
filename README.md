@@ -185,6 +185,7 @@ This table stores information about the feedback from users of the application.
         "message": "Invalid password"
       }
       ```
+
 #### Delete Account
 * URL: /users/delete-account/{id}
 * Method: DELETE
@@ -207,7 +208,7 @@ This table stores information about the feedback from users of the application.
       ```json
       {
         "status": "fail",
-        "message": "Credential is incorrect."
+        "message": "Username or Password is incorrect."
       }
       ```
       
@@ -239,6 +240,7 @@ This table stores information about the feedback from users of the application.
         "message": "Refresh Token is Invalid."
       }
       ```
+
 #### Logout
 * URL: /authentications/logout
 * Method: POST
@@ -251,7 +253,7 @@ This table stores information about the feedback from users of the application.
       ```json
       {
         "status": "success",
-        "message": "Logout successfully."
+        "message": "Logout Success."
       }
       ```
 
@@ -274,6 +276,15 @@ This table stores information about the feedback from users of the application.
         "message": "Tools successfully registered."
       }
       ```
+  * If Error:
+    * Status Code: 400
+    * JSON Response:
+      ```json
+      {
+        "status": "Fail",
+        "message": "Bad Request."
+      }
+      ```
 
 #### List Tools
 * URL: /tools/list-tools
@@ -288,6 +299,15 @@ This table stores information about the feedback from users of the application.
         "videoUrl": "https://example.com/tutorials/treadmil",
         "headline": "<headline>",
         "toolsStep": "<toolsStep>"
+      }
+      ```
+  * If Error:
+    * Status Code: 404
+    * JSON Response:
+      ```json
+      {
+       "status": "Fail",
+        "message": "Tools Not Found"
       }
       ```
       
@@ -308,9 +328,18 @@ This table stores information about the feedback from users of the application.
         "toolsStep": "<toolsStep>"
       }
       ```
+  * If Error:
+    * Status Code: 404
+    * JSON Response:
+      ```json
+      {
+       "status": "Fail",
+        "message": "Tools Not Found"
+      }
+      ```
       
 #### Search Tools
-* URL: /tools/list-tools
+* URL:/tools/search?toolsName=<query>
 * Method: GET
 * Request Query:
   * toolsName (string): Name gym tools
@@ -324,6 +353,15 @@ This table stores information about the feedback from users of the application.
         "videoUrl": "https://example.com/tutorials/treadmil",
         "headline": "<headline>",
         "toolsStep": "<toolsStep>"
+      }
+      ```
+  * If Error:
+    * Status Code: 400
+    * JSON Response:
+      ```json
+      {
+       "status": "Fail",
+        "message": "Bad Request."
       }
       ```
 
@@ -345,6 +383,15 @@ This table stores information about the feedback from users of the application.
         "message": "Update tools success."
       }
       ```
+  * If Error:
+    * Status Code: 400
+    * JSON Response:
+      ```json
+      {
+        "status": "Fail",
+        "message": "Bad Request."
+      }
+      ```
       
 #### Delete Tools
 * URL: /tools/delete-tools/{id}
@@ -357,6 +404,15 @@ This table stores information about the feedback from users of the application.
       {
         "status": "success",
         "message": "Tools deleted successfully."
+      }
+      ```
+  * If Error:
+    * Status Code: 404
+    * JSON Response:
+      ```json
+      {
+       "status": "Fail",
+        "message": "Tools Not Found"
       }
       ```
       
