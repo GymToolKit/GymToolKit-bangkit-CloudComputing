@@ -13,16 +13,25 @@ const routes = (handler) => [
     method: 'GET',
     path: '/users/view/{id}',
     handler: handler.getUserByIdHandler,
+    options: {
+      auth: 'gym_jwt',
+    },
   },
   {
     method: 'PUT',
     path: '/users/edit-users/{id}',
     handler: handler.putUsersByIdHandler,
+    options: {
+      auth: 'gym_jwt',
+    },
   },
   {
     method: 'PUT',
     path: '/users/change-password/{id}',
     handler: handler.patchPasswordHandler,
+    options: {
+      auth: 'gym_jwt',
+    },
   },
   {
     method: 'DELETE',

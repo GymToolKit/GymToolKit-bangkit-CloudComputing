@@ -32,6 +32,7 @@ class UsersHandler {
   }
   async getUserByIdHandler(request) {
     const { id } = request.params;
+    await request.auth.credentials;
     const user = await this._usersService.getUserById(id);
 
     return {
@@ -44,6 +45,7 @@ class UsersHandler {
   async putUsersByIdHandler(request) {
     const { id } = request.params;
     const { username, email } = request.payload;
+    await request.auth.credentials;
   
     // Validate the update payload
     this._validator.validateUserUpdatePayload({ username, email });
@@ -71,6 +73,7 @@ class UsersHandler {
   async patchPasswordHandler(request) {
     const { id } = request.params;
     const { password, newPassword} = request.payload;
+    await request.auth.credentials;
   
     // Validate the update payload
     this._validator.validatePasswordUpdatePayload({ password, newPassword });

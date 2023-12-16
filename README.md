@@ -104,6 +104,8 @@ This table stores information about the feedback from users of the application.
 #### View Account
 * URL: /users/view/{id}
 * Method: GET
+* Request Headers:
+  * Bearer <access_token>
 * Response:
   * If successful:
     * Status Code: 200
@@ -131,6 +133,8 @@ This table stores information about the feedback from users of the application.
 * Request Body:
   * username (string): User's name
   * email (string): User's email
+* Request Headers:
+  * Bearer <access_token>
 * Response:
   * If successful:
     * Status Code: 200
@@ -166,6 +170,8 @@ This table stores information about the feedback from users of the application.
 * Request Body:
   * password (string): User's password
   * newPassword (string): User's new password
+* Request Headers:
+  * Bearer <access_token>
 * Response:
   * If successful:
     * Status Code: 200

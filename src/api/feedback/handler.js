@@ -11,8 +11,8 @@ class FeedbackHandler {
   async postFeedbackHandler(request, h) {
     this._validator.validateFeedbackPayload(request.payload);
     const { id: userId } = request.params; 
-    const { id: credentialId } = request.auth.credentials;
     const { rating, comment } = request.payload;
+    await request.auth.credentials;
 
     await this._feedbackService.checkFeedbackStatus(userId);
     await this._feedbackService.addFeedback(userId, rating, comment);
