@@ -1,6 +1,8 @@
 require('dotenv').config();
 const Hapi = require('@hapi/hapi');
 const Jwt = require('@hapi/jwt');
+const Inert = require('@hapi/inert');
+const path = require('path');
 
 // client error
 const ClientError = require('./exception/clientError');
@@ -26,11 +28,19 @@ const feedback = require('./api/feedback');
 const FeedbackService = require('./services/postgres/feedbackService');
 const FeedbackValidator = require('./validator/feedback');
 
+// uploads Service
+const uploads = require('./api/uploads');
+const StorageService = require('./services/storage/storageService');
+const UploadsValidator = require('./validator/upload');
+const bucketName = 'dummybucket001121';
+const keyFilename = path.resolve(__dirname, 'services', 'storage', 'key.json');
+
 
 const init = async () =>{
     const usersService = new UsersService();
     const authenticationsService = new AuthenticationsService();
     const toolsService = new ToolsService();
+    const storageService = new StorageService(bucketName, keyFilename);
     const feedbackService = new FeedbackService();
     
     const server = Hapi.server({
@@ -46,6 +56,9 @@ const init = async () =>{
   await server.register([
     {
       plugin: Jwt,
+    },
+    {
+      plugin: Inert,
     },
   ]);
 
@@ -96,6 +109,13 @@ await server.register([
       options: {
         feedbackService: feedbackService,
         validator: FeedbackValidator,
+      },
+    },
+    {
+      plugin: uploads,
+      options: {
+        storageService: storageService,
+        validator: UploadsValidator,
       },
     },
   ]);
