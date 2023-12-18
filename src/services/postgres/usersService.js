@@ -1,7 +1,7 @@
 const { nanoid } = require('nanoid');
 const bcrypt = require('bcrypt');
 const InvariantError = require('../../exception/InvariantError');
-const NotFoundError = require('../../exception/notFoundError');
+const NotFoundError = require('../../exception/NotFoundError');
 const AuthenticationError = require('../../exception/authenticationError');
 const database = require('../../config/database');
 

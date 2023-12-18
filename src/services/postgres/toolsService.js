@@ -1,6 +1,6 @@
 const { nanoid } = require('nanoid');
 const InvariantError = require('../../exception/InvariantError');
-const NotFoundError = require('../../exception/notFoundError');
+const NotFoundError = require('../../exception/NotFoundError');
 const { mapDBToModelTools } = require('../../utils');
 const database = require('../../config/database');
 
