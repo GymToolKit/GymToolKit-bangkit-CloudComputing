@@ -33,6 +33,7 @@ This table stores information about the feedback from users of the application.
 
 ## Documentation API GymToolKit
 ### Authentication
+
 ### Users Service
 #### Register
 * URL: /users/register
@@ -423,6 +424,7 @@ This table stores information about the feedback from users of the application.
       ```
       
 ### Feedback Service
+
 #### Send Feedback
 * URL: /feedback/{id}
 * Method: POST
@@ -451,7 +453,6 @@ This table stores information about the feedback from users of the application.
         "message": "Please, provide a rating between 1 and 5."
       }
       ```
-
 #### List Feedback
 * URL: /feedback/list-feedback
 * Method: GET
@@ -464,5 +465,63 @@ This table stores information about the feedback from users of the application.
         "userId": "<users_id>",
         "rating": "<rating>",
         "comment": "<comment>"
+      }
+      ```
+
+### Image Service
+#### Predict Image
+* URL: /predict
+* Method: POST
+* Request Body:
+    * Type: multipart/form-data
+      * Fields:
+          * image (File): The image file to be processed.
+* Response:
+  * If successful:
+    * Status Code: 201
+    * JSON Response:
+      ```json
+      {
+        "status": "success",
+         "predictions": {
+            "label": "<Tools Name>"
+          }
+      }
+      ```
+  * If users not entry rating:
+    * Status Code: 400
+    * JSON Response:
+      ```json
+      {
+        "status": "failed",
+        "message": "Failed, to process image"
+      }
+      ```
+#### Upload Image
+* URL: /upload/images
+* Method: POST
+* Request Body:
+    * Type: multipart/form-data
+      * Fields:
+          * image (File): The image file to be processed.
+* Response:
+  * If successful:
+    * Status Code: 201
+    * JSON Response:
+      ```json
+      {
+        "status": "success",
+         "predictions": {
+            "url": "<url image bucket>"
+          }
+      }
+      ```
+  * If users not entry rating:
+    * Status Code: 400
+    * JSON Response:
+      ```json
+      {
+        "status": "failed",
+        "message": "Failed, to upload images"
       }
       ```
