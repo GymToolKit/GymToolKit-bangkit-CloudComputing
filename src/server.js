@@ -35,12 +35,18 @@ const UploadsValidator = require('./validator/upload');
 const bucketName = 'dummybucket001121';
 const keyFilename = path.resolve(__dirname, 'services', 'storage', 'key.json');
 
+// predict Service
+const predict = require('./api/predict');
+const PredictService = require('./services/storage/predictService');
+const modelPath = path.resolve(__dirname, 'services', 'storage', 'tfjs', 'model.json');
+
 
 const init = async () =>{
     const usersService = new UsersService();
     const authenticationsService = new AuthenticationsService();
     const toolsService = new ToolsService();
     const storageService = new StorageService(bucketName, keyFilename);
+    const predictService = new PredictService(modelPath);
     const feedbackService = new FeedbackService();
     
     const server = Hapi.server({
