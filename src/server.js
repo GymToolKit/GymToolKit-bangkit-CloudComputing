@@ -34,14 +34,13 @@ const StorageService = require('./services/storage/storageService');
 const UploadsValidator = require('./validator/upload');
 const bucketName = 'dummybucket001121';
 const keyFilename = path.resolve(__dirname, 'services', 'storage', 'key.json');
-const modelPath = path.resolve(__dirname, 'models', 'model.h5');
 
 
 const init = async () =>{
     const usersService = new UsersService();
     const authenticationsService = new AuthenticationsService();
     const toolsService = new ToolsService();
-    const storageService = new StorageService(bucketName, keyFilename,modelPath);
+    const storageService = new StorageService(bucketName, keyFilename);
     const feedbackService = new FeedbackService();
     
     const server = Hapi.server({
@@ -123,6 +122,14 @@ await server.register([
       plugin: uploads,
       options: {
         storageService: storageService,
+        validator: UploadsValidator,
+      },
+    },
+    {
+      plugin: predict,
+      options: {
+        predictService: predictService,
+        storageService,
         validator: UploadsValidator,
       },
     },

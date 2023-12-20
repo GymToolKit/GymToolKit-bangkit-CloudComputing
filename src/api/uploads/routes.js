@@ -7,7 +7,7 @@ const routes = (handler) => [
     handler: handler.postUploadImageHandler,
     options: {
       payload: {
-        allow: 'multipart/form-data',
+        allow: ['multipart/form-data'], // Corrected value
         multipart: true,
         output: 'stream',
       },
