@@ -30,7 +30,7 @@ Welcome to the documentation of the GymToolKit: Your Personal Gym Trainer backen
 ![Logo](https://github.com/GymToolKit/GymToolKit-bangkit-CloudComputing/blob/master/Arsitect%20CC.png)
 ## Prerequisites
 
-Before running the Ternaku backend application, make sure you have the following installed:
+Before running the GymToolKit backend application, make sure you have the following installed:
 
 - **@google-cloud/storage**
 - **@hapi/hapi**
@@ -68,8 +68,6 @@ Before running the Ternaku backend application, make sure you have the following
    ```
 ## Configuration
 
-## Configuration
-
 Before running the application, you need to configure the following settings in the `.env`,`server.js`, and `key.json`, file:
 
 - PostgresSQL database configuration:
@@ -86,8 +84,7 @@ Before running the application, you need to configure the following settings in 
   - `.env['PORT']`: The Server port.
 - Google Cloud service account key:
   - `server.js['keyFilename']`: The path to your Google Cloud service account key file.
-   - `server.js['keyFilename']`: The path to your Google Cloud service account key file.
-    - `server.js['bucketName']`: The name off your Google Cloud bucket storage
+  - `server.js['bucketName']`: The name off your Google Cloud bucket storage
 - Model file paths:
   - `server.js['modelPath']`: The path to the Machine Learning model file for predicting 
   
@@ -312,7 +309,7 @@ This table stores information about the feedback from users of the application.
       }
       ```
       
-#### Refreseh Token
+#### Refresh Token
 * URL: /authentications/refresh-token
 * Method: PUT
 * Request Body:
@@ -621,11 +618,17 @@ This table stores information about the feedback from users of the application.
 
 ### Miscellaneous
 #### Root
-
-- **Endpoint:** /
-- **Method:** GET
-- **Response:** Welcome to the root endpoint!
-
+* URL: /
+* Method: GET
+* Response:
+  * If successful:
+    * Status Code: 201
+    * JSON Response:
+      ```json
+      {
+         "message": "Welcome to the root endpoint!"
+      }
+      ```
 ## Running the Application
 
 To run the GymToolKit backend application, execute the following command:
