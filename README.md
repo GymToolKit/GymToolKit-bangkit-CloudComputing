@@ -1,7 +1,101 @@
 # GymToolKit-bangkit-CloudComputing
 Welcome to the documentation of the GymToolKit: Your Personal Gym Trainer backend application. GymToolKit is an application designed to assist individuals new to the gym environment by identifying various gym equipment based on user-uploaded photos. It allows users to access information about the equipment names and instructions for usage.
 
+# Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Database](#database)
+- [Documentation API: GymToolKit](#documentation-api-gymtoolkit)
+  - [Register](#register)
+  - [Login](#login)
+  - [View Account](#view-account)
+  - [Update Account](#update-account)
+  - [Change Password Account](#change-password-account)
+  - [Delete Account](#delete-account)
+  - [Refresh Token](#refresh-token)
+  - [Logout](#logout)
+  - [Register Tools](#register-tools)
+  - [List Tools](#list-tools)
+  - [Detail Tools](#detail-tools)
+  - [Search Tools](#search-tools)
+  - [Update Tools](#update-tools)
+  - [Delete Tools](#delete-tools)
+  - [Send Feedback](#send-feedback)
+  - [List Feedback](#list-feedback)
+  - [Predict Image](#predict-image)
+  - [Upload Image](#upload-image)
+- [Running the Application](#running-the-application)
+
+## Prerequisites
+
+Before running the Ternaku backend application, make sure you have the following installed:
+
+- **@google-cloud/storage**
+- **@hapi/hapi**
+- **@hapi/inert**
+- **@hapi/jwt**
+- **@tensorflow/tfjs-node**
+- **auto-bind**
+- **bcrypt**
+- **dotenv**
+- **joi**
+- **nanoid**
+- **node-fetch**
+- **node-pg-migrate**
+- **pg**
+- **sharp**
+
+## Installation
+
+1. Clone the repository from GitHub:
+
+   ```shell
+   git clone https://github.com/GymToolKit/GymToolKit-bangkit-CloudComputing.git
+   ```
+
+2. Change into the project directory:
+
+   ```shell
+   cd GymToolKit-bangkit-CloudComputing
+   ```
+
+3. Install the required dependencies using npm:
+
+   ```shell
+   npm install
+   ```
+## Configuration
+
+## Configuration
+
+Before running the application, you need to configure the following settings in the `.env`,`server.js`, and `key.json`, file:
+
+- PostgresSQL database configuration:
+  - `.env['PGHOST']`: The PostgresSQL server host.
+  - `.env['PGUSER']`: The PostgresSQL username.
+  - `.env['PGPASSWORD']`: The PostgresSQL password.
+  - `.env['PGDATABASE']`: The name of the PostgresSQL database.
+- JWT secret key:
+  - `.env['ACCESS_TOKEN_KEY']`: A secret key used for generate access JWT token. , You can generate a random key or provide your own.
+  - `.env['REFRESH_TOKEN_KEY']`:  A secret key used for generate refresh JWT token. , You can generate a random key or provide your own.
+  - `.env['ACCESS_TOKEN_AGE']`:A setting defines the expiration duration for access tokens (in seconds).
+- Server Configuration
+  - `.env['HOST']`: The server host.
+  - `.env['PORT']`: The Server port.
+- Google Cloud service account key:
+  - `server.js['keyFilename']`: The path to your Google Cloud service account key file.
+   - `server.js['keyFilename']`: The path to your Google Cloud service account key file.
+    - `server.js['bucketName']`: The name off your Google Cloud bucket storage
+- Model file paths:
+  - `server.js['modelPath']`: The path to the Machine Learning model file for predicting 
+  
 ## Database Schema GymToolKit
+### Database
+
+This repository contains the SQL code to create and manage the database schema for a web application. The schema includes tables for users, tools, and feedback. Below is the structure and details of each table:
+
 ### Table: Users
 This table stores information about the users of the application.
 | Column   | Type | Constraint     |
@@ -32,7 +126,6 @@ This table stores information about the feedback from users of the application.
 | FOREIGN KEY   | (user_id)   | REFERENCES users(id)  |
 
 ## Documentation API GymToolKit
-### Authentication
 
 ### Users Service
 #### Register
@@ -525,3 +618,27 @@ This table stores information about the feedback from users of the application.
         "message": "Failed, to upload images"
       }
       ```
+
+### Miscellaneous
+#### Root
+
+- **Endpoint:** /
+- **Method:** GET
+- **Response:** Welcome to the root endpoint!
+
+## Running the Application
+
+To run the GymToolKit backend application, execute the following command:
+
+```shell
+npm run start
+```
+
+The application will start running on `http://localhost:5000/`.
+
+Make sure you have the required dependencies installed and the necessary configurations set before running the application.
+
+That's it! You have successfully set up and documented the GymToolKit backend application.
+
+## Disclaimer
+-   This project is created for educational purpose as the requirement to graduate from [**_Bangkit Academy led by Google, Tokopedia, Gojek, & Traveloka_**.](https://www.linkedin.com/company/bangkit-academy/mycompany/)
