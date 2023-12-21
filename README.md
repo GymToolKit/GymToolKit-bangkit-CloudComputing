@@ -27,7 +27,7 @@ Welcome to the documentation of the GymToolKit: Your Personal Gym Trainer backen
   - [Predict Image](#predict-image)
   - [Upload Image](#upload-image)
 - [Running the Application](#running-the-application)
-
+![Logo](https://github.com/GymToolKit/GymToolKit-bangkit-CloudComputing/blob/master/Arsitect%20CC.png)
 ## Prerequisites
 
 Before running the Ternaku backend application, make sure you have the following installed:
